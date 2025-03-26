@@ -19,9 +19,15 @@ type Hypercube struct {
 }
 
 // NewHypercube creates a new n-dimensional hypercube
-func NewHypercube(dimensions int) *Hypercube {
+func NewHypercube(dimensions int) (*Hypercube, error) {
 	if dimensions < 1 {
 		dimensions = 1 // minimum dimension
+	}
+
+	// Check for maximum practical dimensions (int overflow prevention)
+	const maxDimensions = 31 // 2^31 fits in int on 64-bit systems
+	if dimensions > maxDimensions {
+		return nil, fmt.Errorf("dimensions %d exceeds maximum supported value %d (2^%d vertices would overflow int)", dimensions, maxDimensions, maxDimensions)
 	}
 
 	// Calculate number of vertices (2^n)
@@ -58,7 +64,7 @@ func NewHypercube(dimensions int) *Hypercube {
 		vertices:  vertices,
 		edges:     edges,
 		rotations: rotations,
-	}
+	}, nil
 }
 
 // Rotate performs rotation in all possible planes
@@ -128,10 +134,14 @@ func min(a, b int) int {
 
 func main() {
 	// Configurable parameters
-	dimensions := 5     // Number of dimensions
-	verticesToShow := 8 // Number of vertices to display
+	dimensions := 10     // Number of dimensions
+	verticesToShow := 20 // Number of vertices to display
 
-	hypercube := NewHypercube(dimensions)
+	hypercube, err := NewHypercube(dimensions)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
 
 	fmt.Printf("Created %d-dimensional hypercube\n", dimensions)
 	fmt.Printf("Number of vertices: %d\n", len(hypercube.vertices))

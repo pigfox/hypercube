@@ -61,3 +61,34 @@ hypercube := NewHypercube(10)  // Creates 1024 vertices
 // For a 1000-dimensional hypercube
 hypercube := NewHypercube(1000)  // Creates 2^1000 vertices (beware memory!)
 ```
+
+## Understanding Frames in the Hypercube Simulation
+
+In this hypercube simulation, "frames" refer to discrete snapshots or time steps that illustrate the hypercube's rotation through n-dimensional space. They allow us to visualize the object’s dynamic behavior by showing its state—specifically, the positions of its projected vertices—at regular intervals.
+
+### Purpose of Frames
+
+- **Animation Simulation**:
+  - The hypercube starts as a static object. By applying incremental rotations at each step, we simulate motion.
+  - Frames represent these updates, enabling observation of the hypercube’s evolution over time, mimicking an animation (though output here is text-based).
+
+- **Time Discretization**:
+  - The variable `t` in the simulation loop (`for t := 0.0; t < 2*math.Pi; t += 0.2`) represents time or an angle parameter. Each loop iteration is a new frame.
+  - The step size (e.g., `0.2`) controls frame frequency—smaller steps yield smoother transitions, while larger steps make motion coarser.
+
+- **Visualization of Change**:
+  - At each frame, the hypercube’s vertices are rotated and projected from n-dimensional space to 3D. Printing a subset of these projected coordinates shows positional changes due to rotation.
+  - For example, vertex coordinates shift between `Frame at t=0.00` and `Frame at t=0.20`, demonstrating the rotation effect.
+
+- **Debugging and Analysis**:
+  - Frames provide checkpoints to inspect the simulation, verifying that rotations and projections work correctly or analyzing the hypercube’s behavior across dimensions.
+
+### Implementation
+
+- **Loop Structure**: The `main` function uses a loop incrementing `t` from 0 to 2π (a full rotation cycle). Each iteration is a frame:
+  ```go
+  for t := 0.0; t < 2*math.Pi; t += 0.2 {
+      hypercube.Rotate(t)
+      PrintFrame(hypercube, t, verticesToShow)
+  }
+  ```
