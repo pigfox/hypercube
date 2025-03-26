@@ -55,11 +55,9 @@ Number of edges: 32
 
 ### Usage Examples
 ```go
-// For a 10-dimensional hypercube
-hypercube := NewHypercube(10)  // Creates 1024 vertices
-
-// For a 1000-dimensional hypercube
-hypercube := NewHypercube(1000)  // Creates 2^1000 vertices (beware memory!)
+// Configurable parameters
+dimensions := 10     // Number of dimensions
+verticesToShow := 20 // Number of vertices to display
 ```
 
 ## Understanding Frames in the Hypercube Simulation
